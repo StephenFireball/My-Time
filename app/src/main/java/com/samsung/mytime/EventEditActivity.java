@@ -38,10 +38,8 @@ public class EventEditActivity extends AppCompatActivity{
         String eventName = eventNameET.getText().toString();
         Event newEvent = new Event(eventName, CalendarUtils.selectedDate, time);
         Event.eventsList.add(newEvent);
-        SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
-        db.execSQL("CREATE TABLE IF NOT EXISTS events (eventname TEXT NOT NULL, eventtime TEXT NOT NULL)");
-        db.execSQL("INSERT INTO events VALUES ('" + eventName + "', '" + CalendarUtils.formatedDatedb(CalendarUtils.selectedDate) + "')");
-        db.close();
+        OpenHelper openHelper = new OpenHelper(this);
+        openHelper.insert(newEvent);
         finish();
     }
 }

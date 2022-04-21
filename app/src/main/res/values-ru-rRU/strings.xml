@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="mon">ПН</string>
+    <string name="tue">ВТ</string>
+    <string name="wen">СР</string>
+    <string name="thu">ЧТ</string>
+    <string name="fri">ПТ</string>
+    <string name="sat">СБ</string>
+    <string name="sun">ВС</string>
+    <string name="write_event_name">Напишите название события</string>
+    <string name="date">Дата</string>
+    <string name="time">Время</string>
+</resources>
