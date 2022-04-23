@@ -5,8 +5,6 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -24,6 +22,7 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initWidgets();
+        OpenHelper openHelper = new OpenHelper(this);
         CalendarUtils.selectedDate = LocalDate.now();
         setMonthView();
     }
@@ -62,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
     }
 
     public void weeklyAction(View view){
-        startActivity(new Intent(this, WeekViewActivity.class));
+        startActivity(new Intent(this, WeekActivity.class));
     }
 }
 

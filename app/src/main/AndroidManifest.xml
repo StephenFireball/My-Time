@@ -9,11 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CalendarAppExample">
-        <activity
-            android:name="com.samsung.mytime.DailyCalendarActivity"
-            android:exported="true" />
         <activity android:name="com.samsung.mytime.EventEditActivity" />
-        <activity android:name="com.samsung.mytime.WeekViewActivity" />
+        <activity android:name="com.samsung.mytime.WeekActivity" />
         <activity android:name="com.samsung.mytime.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -35,10 +35,10 @@ public class EventEditActivity extends AppCompatActivity{
     }
 
     public void saveEventAction(View view){
+        OpenHelper openHelper = OpenHelper.instanceOfDB(this);
         String eventName = eventNameET.getText().toString();
         Event newEvent = new Event(eventName, CalendarUtils.selectedDate, time);
         Event.eventsList.add(newEvent);
-        OpenHelper openHelper = new OpenHelper(this);
         openHelper.insert(newEvent);
         finish();
     }

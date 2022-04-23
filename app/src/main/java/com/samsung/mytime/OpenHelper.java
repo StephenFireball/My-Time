@@ -62,9 +62,14 @@ public class OpenHelper extends SQLiteOpenHelper {
         SQLiteDatabase database = getReadableDatabase();
         database.delete(TABLE_NAME, null, null);
     }
+    public static OpenHelper instanceOfDB(Context context){
+        if (openHelper == null){
+            openHelper = new OpenHelper(context);
+        }
+        return openHelper;
+    }
 
     public ArrayList<Event> findAllEvents(){
-        ArrayList<Event> arrEvent = new ArrayList<>();
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.query(TABLE_NAME,
                 null,
@@ -81,8 +86,8 @@ public class OpenHelper extends SQLiteOpenHelper {
             String time = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TIME));
             LocalDate dateId = LocalDate.parse(date, dateFormatter);
             LocalTime timeId = LocalTime.parse(time, timeFormatter);
-            arrEvent.add(new Event(id, nameId, dateId, timeId));
+            Event.eventsList.add(new Event(id, nameId, dateId, timeId));
         }while (cursor.moveToNext());
-        return arrEvent;
+        return null;
     }
 }

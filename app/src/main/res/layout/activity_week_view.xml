@@ -6,18 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.samsung.mytime.WeekViewActivity">
+    tools:context="com.samsung.mytime.WeekActivity">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Daily"
-        android:textColor="@color/blue"
-        android:background="@null"
-        android:textStyle="bold"
-        android:onClick="dailyAction"
-        android:textSize="20sp"/>
 
     <LinearLayout
         android:layout_width="match_parent"

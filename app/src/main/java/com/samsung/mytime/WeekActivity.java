@@ -13,7 +13,7 @@ import android.widget.TextView;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class WeekViewActivity extends AppCompatActivity implements CalendarAdapter.OnItemListener{
+public class WeekActivity extends AppCompatActivity implements CalendarAdapter.OnItemListener{
     private TextView monthYearText;
     private RecyclerView calendarRecyclerView;
     private ListView eventListView;
@@ -22,8 +22,13 @@ public class WeekViewActivity extends AppCompatActivity implements CalendarAdapt
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_week_view);
+        loadFromDBToMemory();
         initWidgets();
         setWeekView();
+    }
+
+    private void loadFromDBToMemory() {
+        OpenHelper openHelper = OpenHelper.instanceOfDB(this);
     }
 
     private void initWidgets(){
@@ -74,9 +79,5 @@ public class WeekViewActivity extends AppCompatActivity implements CalendarAdapt
 
     public void newEventAction(View view){
         startActivity(new Intent(this, EventEditActivity.class));
-    }
-
-    public void dailyAction(View view){
-        startActivity(new Intent(this, DailyCalendarActivity.class));
     }
 }
