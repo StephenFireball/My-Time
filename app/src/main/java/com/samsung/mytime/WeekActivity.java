@@ -17,6 +17,7 @@ public class WeekActivity extends AppCompatActivity implements CalendarAdapter.O
     private TextView monthYearText;
     private RecyclerView calendarRecyclerView;
     private ListView eventListView;
+    OpenHelper openHelper = new OpenHelper(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
