@@ -7,15 +7,16 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
+import android.widget.Toast;
+
 import java.time.LocalTime;
+import java.util.ArrayList;
 
 public class EventEditActivity extends AppCompatActivity{
     private EditText eventNameET;
     private TextView eventDateTV, eventTimeTV;
-
     private LocalTime time;
+    OpenHelper openHelper = new OpenHelper(this);
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -35,7 +36,6 @@ public class EventEditActivity extends AppCompatActivity{
     }
 
     public void saveEventAction(View view){
-        OpenHelper openHelper = OpenHelper.instanceOfDB(this);
         String eventName = eventNameET.getText().toString();
         Event newEvent = new Event(eventName, CalendarUtils.selectedDate, time);
         Event.eventsList.add(newEvent);

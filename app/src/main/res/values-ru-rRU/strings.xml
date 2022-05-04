@@ -10,4 +10,6 @@
     <string name="write_event_name">Напишите название события</string>
     <string name="date">Дата</string>
     <string name="time">Время</string>
+    <string name="deleteEvents">Удалить события</string>
+    <string name="sure">Вы уверены? Ваши события будут удалены без возможности восстановления!</string>
 </resources>

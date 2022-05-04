@@ -12,4 +12,6 @@
     <string name="write_event_name">Write event name</string>
     <string name="date">Date</string>
     <string name="time">Time</string>
+    <string name="deleteEvents">Delete Events</string>
+    <string name="sure">Are you sure? Your events will be deleted with no restore option!</string>
 </resources>

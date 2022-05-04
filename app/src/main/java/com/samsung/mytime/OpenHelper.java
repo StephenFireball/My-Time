@@ -1,17 +1,22 @@
 package com.samsung.mytime;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -28,8 +33,8 @@ public class OpenHelper extends SQLiteOpenHelper {
     public static final String COLUMN_TIME = "time";
     private static final String MY_LOG = "";
 
-    private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy");
-    private static final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("hh:mm:ss a");
+    private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private static final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
 
     public OpenHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -53,7 +58,8 @@ public class OpenHelper extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_NAME, event.getName());
         contentValues.put(COLUMN_DATE, String.valueOf(event.getDate()));
-        contentValues.put(COLUMN_TIME, String.valueOf(event.getTime()));
+        String time = event.getTime().truncatedTo(ChronoUnit.SECONDS).toString();
+        contentValues.put(COLUMN_TIME, time);
         SQLiteDatabase db = getWritableDatabase();
         return db.insert(TABLE_NAME, null, contentValues);
     }
@@ -61,6 +67,7 @@ public class OpenHelper extends SQLiteOpenHelper {
     public void deleteAll() {
         SQLiteDatabase database = getReadableDatabase();
         database.delete(TABLE_NAME, null, null);
+        Event.eventsList.clear();
     }
     public static OpenHelper instanceOfDB(Context context){
         if (openHelper == null){
@@ -78,16 +85,20 @@ public class OpenHelper extends SQLiteOpenHelper {
                 null,
                 null,
                 null);
-        cursor.moveToFirst();
-        do {
-            int id = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ID));
-            String nameId = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_NAME));
-            String date = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DATE));
-            String time = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TIME));
-            LocalDate dateId = LocalDate.parse(date, dateFormatter);
-            LocalTime timeId = LocalTime.parse(time, timeFormatter);
-            Event.eventsList.add(new Event(id, nameId, dateId, timeId));
-        }while (cursor.moveToNext());
+        try {
+            cursor.moveToFirst();
+            do {
+                int id = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ID));
+                String nameId = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_NAME));
+                String date = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DATE));
+                String time = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TIME));
+                LocalDate dateId = LocalDate.parse(date, dateFormatter);
+                LocalTime timeId = LocalTime.parse(time, timeFormatter);
+                Event.eventsList.add(new Event(id, nameId, dateId, timeId));
+            } while (cursor.moveToNext());
+        } catch (Exception e){
+            Log.e("TAG", e.getMessage());
+        }
         return null;
     }
 }

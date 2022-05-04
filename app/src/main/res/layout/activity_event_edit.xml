@@ -23,8 +23,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:textSize="20sp"
-        android:text="@string/write_event_name"
-        android:textColor="@color/lightGray"
+        android:text=""
+        android:textColor="@color/black"
         android:ems="10"
         android:inputType="text"/>
 

@@ -1,5 +1,6 @@
 package com.samsung.mytime;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -7,8 +8,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -23,13 +26,9 @@ public class WeekActivity extends AppCompatActivity implements CalendarAdapter.O
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_week_view);
-        loadFromDBToMemory();
         initWidgets();
         setWeekView();
-    }
-
-    private void loadFromDBToMemory() {
-        OpenHelper openHelper = OpenHelper.instanceOfDB(this);
+        openHelper.findAllEvents();
     }
 
     private void initWidgets(){
@@ -80,5 +79,23 @@ public class WeekActivity extends AppCompatActivity implements CalendarAdapter.O
 
     public void newEventAction(View view){
         startActivity(new Intent(this, EventEditActivity.class));
+    }
+
+    public void deleteAllEventsAction(View view) {
+        AlertDialog deleteDialog = new AlertDialog.Builder(this).setTitle("Delete Events")
+                .setMessage("Are you sure? Your events will be deleted with no restore option!")
+                .setPositiveButton("Ok", null)
+                .setNegativeButton("Cancel", null)
+                .show();
+
+        Button positive = deleteDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+        positive.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openHelper.deleteAll();
+                deleteDialog.dismiss();
+                setWeekView();
+            }
+        });
     }
 }

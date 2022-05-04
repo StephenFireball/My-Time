@@ -1,6 +1,5 @@
 package com.samsung.mytime;
 
-import android.graphics.Path;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -62,10 +61,6 @@ public class Event{
 
     public LocalDate getDate(){
         return date;
-    }
-
-    public void setDate(LocalDate date){
-        this.date = date;
     }
 
     public LocalTime getTime(){
