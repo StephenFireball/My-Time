@@ -34,7 +34,7 @@ public class OpenHelper extends SQLiteOpenHelper {
     private static final String MY_LOG = "";
 
     private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-    private static final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+    private static final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
 
     public OpenHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
