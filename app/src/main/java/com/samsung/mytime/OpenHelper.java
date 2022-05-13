@@ -1,7 +1,5 @@
 package com.samsung.mytime;
 
-import static android.content.ContentValues.TAG;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -9,20 +7,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import java.io.IOException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.Date;
 
 public class OpenHelper extends SQLiteOpenHelper {
-
-    private static OpenHelper openHelper;
 
     public static final String TABLE_NAME = "event";
     public static final String DB_NAME = "eventDB";
@@ -31,7 +21,6 @@ public class OpenHelper extends SQLiteOpenHelper {
     public static final String COLUMN_NAME = "name";
     public static final String COLUMN_DATE = "date";
     public static final String COLUMN_TIME = "time";
-    private static final String MY_LOG = "";
 
     private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private static final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
@@ -54,14 +43,14 @@ public class OpenHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public long insert(Event event) {
+    public void insert(Event event) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_NAME, event.getName());
         contentValues.put(COLUMN_DATE, String.valueOf(event.getDate()));
         String time = event.getTime().truncatedTo(ChronoUnit.SECONDS).toString();
         contentValues.put(COLUMN_TIME, time);
         SQLiteDatabase db = getWritableDatabase();
-        return db.insert(TABLE_NAME, null, contentValues);
+        db.insert(TABLE_NAME, null, contentValues);
     }
 
     public void deleteAll() {
@@ -69,14 +58,8 @@ public class OpenHelper extends SQLiteOpenHelper {
         database.delete(TABLE_NAME, null, null);
         Event.eventsList.clear();
     }
-    public static OpenHelper instanceOfDB(Context context){
-        if (openHelper == null){
-            openHelper = new OpenHelper(context);
-        }
-        return openHelper;
-    }
 
-    public ArrayList<Event> findAllEvents(){
+    public void findAllEvents(){
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.query(TABLE_NAME,
                 null,
@@ -99,6 +82,6 @@ public class OpenHelper extends SQLiteOpenHelper {
         } catch (Exception e){
             Log.e("TAG", e.getMessage());
         }
-        return null;
+        cursor.close();
     }
 }

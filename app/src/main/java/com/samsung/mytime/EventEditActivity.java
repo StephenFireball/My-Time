@@ -1,7 +1,5 @@
 package com.samsung.mytime;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
@@ -11,6 +9,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -51,7 +51,7 @@ public class EventEditActivity extends AppCompatActivity{
                 TimePickerDialog timePickerDialog = new TimePickerDialog(EventEditActivity.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int hourOfDay, int minuteOfDay) {
-                        Toast.makeText(EventEditActivity.this, ""+hourOfDay+":"+minuteOfDay, Toast.LENGTH_LONG);
+                        Toast.makeText(EventEditActivity.this, ""+hourOfDay+":"+minuteOfDay, Toast.LENGTH_LONG).show();
                         strTime = ""+hourOfDay+":"+minuteOfDay;
                     }
                 }, hour, minute, true);
