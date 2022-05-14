@@ -8,7 +8,7 @@
     <string name="sat">СБ</string>
     <string name="sun">ВС</string>
     <string name="write_event_name">Напишите название события</string>
-    <string name="date">Дата</string>
+    <string name="date">Дата:</string>
     <string name="time">Выберите время</string>
     <string name="deleteEvents">Удалить события</string>
     <string name="sure">Вы уверены? Ваши события будут удалены без возможности восстановления!</string>

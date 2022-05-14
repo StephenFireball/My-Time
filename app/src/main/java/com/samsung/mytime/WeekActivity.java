@@ -1,8 +1,12 @@
 package com.samsung.mytime;
 
+import android.app.Activity;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -19,6 +23,8 @@ public class WeekActivity extends AppCompatActivity implements CalendarAdapter.O
     private TextView monthYearText;
     private RecyclerView calendarRecyclerView;
     private ListView eventListView;
+    public static int eventPosition;
+    ArrayList<Event> dailyEvents;
     OpenHelper openHelper = new OpenHelper(this);
 
     @Override
@@ -71,9 +77,34 @@ public class WeekActivity extends AppCompatActivity implements CalendarAdapter.O
     }
 
     private void setEventAdapter(){
-        ArrayList<Event> dailyEvents = Event.eventsForDate(CalendarUtils.selectedDate);
+        dailyEvents = Event.eventsForDate(CalendarUtils.selectedDate);
         EventAdapter eventAdapter = new EventAdapter(getApplicationContext(), dailyEvents);
         eventListView.setAdapter(eventAdapter);
+        eventListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                eventPosition = i;
+                eventDetailDialog();
+            }
+        });
+    }
+    public void eventDetailDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        Event event = dailyEvents.get(eventPosition);
+        String eventName = event.getName();
+        String eventDate = event.getDate().toString();
+        String eventTime = event.getTime().toString();
+        String eventPrice = event.getPrice();
+        String eventEquipment = event.getEquipment();
+        builder.setTitle("Event Detail").setMessage("Name:\n" + eventName + "\nDate:\n"
+                + eventDate + "\nTime:\n" + eventTime + "\nPrice:\n"
+                + eventPrice + "\nEquipment:\n" + eventEquipment).setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                onResume();
+            }
+        });
+        builder.create().show();
     }
 
     public void newEventAction(View view){
@@ -97,4 +128,5 @@ public class WeekActivity extends AppCompatActivity implements CalendarAdapter.O
             }
         });
     }
+
 }

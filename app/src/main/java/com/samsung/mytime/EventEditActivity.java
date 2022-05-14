@@ -33,7 +33,7 @@ public class EventEditActivity extends AppCompatActivity{
         setContentView(R.layout.activity_event_edit);
         initWidgets();
         time = LocalTime.now();
-        eventDateTV.setText("Date: " + CalendarUtils.formattedDate(CalendarUtils.selectedDate));
+        eventDateTV.setText(CalendarUtils.formattedDate(CalendarUtils.selectedDate));
     }
 
     private void initWidgets(){
