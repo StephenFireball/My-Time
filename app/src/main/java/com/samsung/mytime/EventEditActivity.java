@@ -17,13 +17,13 @@ import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 
 public class EventEditActivity extends AppCompatActivity{
-    private EditText eventNameET;
+    private EditText eventNameET, eventPriceET, eventEquipmentET;
     private TextView eventDateTV;
     private Button eventTimeButton;
     int hour, minute;
     String strTime;
     private LocalTime time;
-    private static final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+    private static final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("H:mm");
     OpenHelper openHelper = new OpenHelper(this);
 
     @SuppressLint("SetTextI18n")
@@ -38,6 +38,8 @@ public class EventEditActivity extends AppCompatActivity{
 
     private void initWidgets(){
         eventNameET = findViewById(R.id.eventNameET);
+        eventPriceET = findViewById(R.id.eventPriceET);
+        eventEquipmentET = findViewById(R.id.eventEquipmentET);
         eventDateTV = findViewById(R.id.eventDateTV);
         eventTimeButton = findViewById(R.id.eventTimeButton);
     }
@@ -62,8 +64,10 @@ public class EventEditActivity extends AppCompatActivity{
 
     public void saveEventAction(View view){
         String eventName = eventNameET.getText().toString();
+        String eventPrice = eventPriceET.getText().toString();
+        String eventEquipment = eventEquipmentET.getText().toString();
         time = LocalTime.parse(strTime, timeFormatter);
-        Event newEvent = new Event(eventName, CalendarUtils.selectedDate, time);
+        Event newEvent = new Event(eventName, CalendarUtils.selectedDate, time, eventPrice, eventEquipment);
         Event.eventsList.add(newEvent);
         openHelper.insert(newEvent);
         finish();

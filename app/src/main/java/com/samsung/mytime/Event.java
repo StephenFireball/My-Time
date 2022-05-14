@@ -21,21 +21,26 @@ public class Event{
     }
 
     private int id;
-    private String name;
+    private String name, price, equipment;
     private LocalDate date;
     private LocalTime time;
 
-    public Event(int id, String name, LocalDate date, LocalTime time) {
+
+    public Event(int id, String name, LocalDate date, LocalTime time, String price, String equipment) {
         this.id = id;
         this.name = name;
         this.date = date;
         this.time = time;
+        this.price = price;
+        this.equipment = equipment;
     }
 
-    public Event(String name, LocalDate date, LocalTime time){
+    public Event(String name, LocalDate date, LocalTime time, String price, String equipment){
         this.name = name;
         this.date = date;
         this.time = time;
+        this.price = price;
+        this.equipment = equipment;
     }
 
     public String getName(){
@@ -48,6 +53,14 @@ public class Event{
 
     public LocalTime getTime(){
         return time;
+    }
+
+    public String getPrice(){
+        return price;
+    }
+
+    public String getEquipment(){
+        return equipment;
     }
 
     public void setTime(LocalTime time){

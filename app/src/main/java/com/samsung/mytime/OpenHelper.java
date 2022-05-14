@@ -16,11 +16,13 @@ public class OpenHelper extends SQLiteOpenHelper {
 
     public static final String TABLE_NAME = "event";
     public static final String DB_NAME = "eventDB";
-    public static final int DB_VERSION = 1;
+    public static final int DB_VERSION = 2;
     public static final String COLUMN_ID = "id";
     public static final String COLUMN_NAME = "name";
     public static final String COLUMN_DATE = "date";
     public static final String COLUMN_TIME = "time";
+    public static final String COLUMN_PRICE = "price";
+    public static final String COLUMN_EQUIPMENT = "equipment";
 
     private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private static final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
@@ -31,9 +33,13 @@ public class OpenHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        String query = "CREATE TABLE " + TABLE_NAME + "("
-                + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                COLUMN_NAME + " TEXT, " + COLUMN_DATE + " DATE, " + COLUMN_TIME + " TIME)";
+        String query = "CREATE TABLE " + TABLE_NAME + "(" +
+                COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUMN_NAME + " TEXT, " +
+                COLUMN_DATE + " DATE, " +
+                COLUMN_TIME + " TIME, " +
+                COLUMN_PRICE + " TEXT, " +
+                COLUMN_EQUIPMENT + " TEXT)";
         sqLiteDatabase.execSQL(query);
     }
 
@@ -49,6 +55,8 @@ public class OpenHelper extends SQLiteOpenHelper {
         contentValues.put(COLUMN_DATE, String.valueOf(event.getDate()));
         String time = event.getTime().truncatedTo(ChronoUnit.SECONDS).toString();
         contentValues.put(COLUMN_TIME, time);
+        contentValues.put(COLUMN_PRICE, event.getPrice());
+        contentValues.put(COLUMN_EQUIPMENT, event.getEquipment());
         SQLiteDatabase db = getWritableDatabase();
         db.insert(TABLE_NAME, null, contentValues);
     }
@@ -77,7 +85,9 @@ public class OpenHelper extends SQLiteOpenHelper {
                 String time = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TIME));
                 LocalDate dateId = LocalDate.parse(date, dateFormatter);
                 LocalTime timeId = LocalTime.parse(time, timeFormatter);
-                Event.eventsList.add(new Event(id, nameId, dateId, timeId));
+                String price = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_PRICE));
+                String equipment = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_EQUIPMENT));
+                Event.eventsList.add(new Event(id, nameId, dateId, timeId, price, equipment));
             } while (cursor.moveToNext());
         } catch (Exception e){
             Log.e("TAG", e.getMessage());
