@@ -66,6 +66,17 @@ public class OpenHelper extends SQLiteOpenHelper {
         database.delete(TABLE_NAME, null, null);
         Event.eventsList.clear();
     }
+    public void deleteCurrentEvent(Event event){
+        SQLiteDatabase database = getWritableDatabase();
+        String eventName = event.getName();
+        String eventDate = event.getDate().toString();
+        String eventTime = event.getTime().toString();
+        String eventPrice = event.getPrice();
+        String eventEquipment = event.getEquipment();
+        database.delete(TABLE_NAME, "name=? and date=? and time=? and price=? and equipment=?", new String[]{eventName, eventDate, eventTime, eventPrice, eventEquipment});
+        Event.eventsList.remove(event);
+        Event.eventsForDate(CalendarUtils.selectedDate).remove(event);
+    }
 
     public void findAllEvents(){
         SQLiteDatabase db = getReadableDatabase();

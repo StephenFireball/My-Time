@@ -87,7 +87,37 @@ public class WeekActivity extends AppCompatActivity implements CalendarAdapter.O
                 eventDetailDialog();
             }
         });
+        eventListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                eventDeleteDialog();
+                return true;
+            }
+        });
     }
+
+    private void eventDeleteDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        Event event = dailyEvents.get(eventPosition);
+        String eventName = event.getName();
+        String eventDate = event.getDate().toString();
+        String eventTime = event.getTime().toString();
+        String eventPrice = event.getPrice();
+        String eventEquipment = event.getEquipment();
+        builder.setTitle("Event delete").setMessage("Are you sure? Your event will be deleted with no restore option!").setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                openHelper.deleteCurrentEvent(event);
+                setWeekView();
+            }
+        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+            }
+        });
+        builder.create().show();
+    }
+
     public void eventDetailDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         Event event = dailyEvents.get(eventPosition);
