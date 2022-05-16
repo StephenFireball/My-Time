@@ -17,9 +17,13 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
+import java.util.Date;
 
 public class EventEditActivity extends AppCompatActivity{
     private EditText eventNameET, eventPriceET, eventEquipmentET;
@@ -91,14 +95,22 @@ public class EventEditActivity extends AppCompatActivity{
         Toast.makeText(this, "Event saved!", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(EventEditActivity.this, EventReminder.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(EventEditActivity.this, 0, intent, 0);
-
-        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        String dateTime = CalendarUtils.selectedDate.toString() + " " + time.toString();
+        DateFormat dateTimeFormatter = new SimpleDateFormat("yyyy-MM-dd H:mm");
         long timeAlarm = System.currentTimeMillis();
         long tenSecondsInMillis = 1000 * 10;
-
-        alarmManager.set(AlarmManager.RTC_WAKEUP,
-                timeAlarm + tenSecondsInMillis,
-                pendingIntent);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        try {
+            Date date = dateTimeFormatter.parse(dateTime);
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(date);
+            cal.add(Calendar.HOUR, -1);
+            alarmManager.set(AlarmManager.RTC_WAKEUP,
+                    date.getTime(),
+                    pendingIntent);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         finish();
     }
 }
