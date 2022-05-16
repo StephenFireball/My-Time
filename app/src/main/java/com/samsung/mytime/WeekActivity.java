@@ -25,6 +25,7 @@ public class WeekActivity extends AppCompatActivity implements CalendarAdapter.O
     private ListView eventListView;
     public static int eventPosition;
     ArrayList<Event> dailyEvents;
+    public static int op_count = 0;
     OpenHelper openHelper = new OpenHelper(this);
 
     @Override
@@ -33,7 +34,10 @@ public class WeekActivity extends AppCompatActivity implements CalendarAdapter.O
         setContentView(R.layout.activity_week_view);
         initWidgets();
         setWeekView();
-        openHelper.findAllEvents();
+        if (op_count == 0) {
+            openHelper.findAllEvents();
+            op_count += 1;
+        }
     }
 
     private void initWidgets(){

@@ -33,7 +33,7 @@ public class EventEditActivity extends AppCompatActivity{
     String strTime;
     public static LocalTime time;
     public static String eventName;
-    private static final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("H:mm");
+    private static final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("H:m");
     OpenHelper openHelper = new OpenHelper(this);
 
     @SuppressLint("SetTextI18n")
@@ -105,9 +105,9 @@ public class EventEditActivity extends AppCompatActivity{
             Calendar cal = Calendar.getInstance();
             cal.setTime(date);
             cal.add(Calendar.HOUR, -1);
-            alarmManager.set(AlarmManager.RTC_WAKEUP,
-                    date.getTime(),
-                    pendingIntent);
+            cal.set(Calendar.SECOND, 0);
+            date = cal.getTime();
+            alarmManager.set(AlarmManager.RTC_WAKEUP, date.getTime(), pendingIntent);
         } catch (ParseException e) {
             e.printStackTrace();
         }
