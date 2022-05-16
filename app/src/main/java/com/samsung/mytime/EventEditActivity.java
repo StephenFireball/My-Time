@@ -1,7 +1,12 @@
 package com.samsung.mytime;
 
 import android.annotation.SuppressLint;
+import android.app.AlarmManager;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -22,7 +27,8 @@ public class EventEditActivity extends AppCompatActivity{
     private Button eventTimeButton;
     int hour, minute;
     String strTime;
-    private LocalTime time;
+    public static LocalTime time;
+    public static String eventName;
     private static final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("H:mm");
     OpenHelper openHelper = new OpenHelper(this);
 
@@ -32,6 +38,7 @@ public class EventEditActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_edit);
         initWidgets();
+        createNotificationChannel();
         time = LocalTime.now();
         eventDateTV.setText(CalendarUtils.formattedDate(CalendarUtils.selectedDate));
     }
@@ -62,14 +69,36 @@ public class EventEditActivity extends AppCompatActivity{
         });
     }
 
+    private void createNotificationChannel(){
+        CharSequence name = "MyTimeNotificationChannel";
+        String description = "Channel for My Time Application";
+        int importance = NotificationManager.IMPORTANCE_DEFAULT;
+        NotificationChannel channel = new NotificationChannel("myTimeNotifications", name, importance);
+        channel.setDescription(description);
+
+        NotificationManager notificationManager = getSystemService(NotificationManager.class);
+        notificationManager.createNotificationChannel(channel);
+    }
+
     public void saveEventAction(View view){
-        String eventName = eventNameET.getText().toString();
+        eventName = eventNameET.getText().toString();
         String eventPrice = eventPriceET.getText().toString();
         String eventEquipment = eventEquipmentET.getText().toString();
         time = LocalTime.parse(strTime, timeFormatter);
         Event newEvent = new Event(eventName, CalendarUtils.selectedDate, time, eventPrice, eventEquipment);
         Event.eventsList.add(newEvent);
         openHelper.insert(newEvent);
+        Toast.makeText(this, "Event saved!", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(EventEditActivity.this, EventReminder.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(EventEditActivity.this, 0, intent, 0);
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        long timeAlarm = System.currentTimeMillis();
+        long tenSecondsInMillis = 1000 * 10;
+
+        alarmManager.set(AlarmManager.RTC_WAKEUP,
+                timeAlarm + tenSecondsInMillis,
+                pendingIntent);
         finish();
     }
 }
