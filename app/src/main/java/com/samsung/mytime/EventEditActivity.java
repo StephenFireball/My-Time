@@ -44,7 +44,6 @@ public class EventEditActivity extends AppCompatActivity{
         setContentView(R.layout.activity_event_edit);
         initWidgets();
         createNotificationChannel();
-        CalendarUtils.selectedDate = LocalDate.now();
         time = LocalTime.now();
         eventDateTV.setText(CalendarUtils.formattedDate(CalendarUtils.selectedDate));
     }
