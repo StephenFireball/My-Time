@@ -19,7 +19,9 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".EventReminder"/>
+        <receiver android:name=".EventReminder"
+            android:exported="true"
+            android:enabled="true"/>
     </application>
 
 </manifest>
