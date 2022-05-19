@@ -1,5 +1,12 @@
 package com.samsung.mytime;
 
+import static com.samsung.mytime.Notifications.notificationID;
+
+import android.app.AlarmManager;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -11,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity implements CalendarAdapter.OnItemListener{
     private TextView monthYearText;
@@ -22,6 +30,7 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initWidgets();
+        createNotificationChannel();
         CalendarUtils.selectedDate = LocalDate.now();
         setMonthView();
     }
@@ -29,6 +38,16 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
     private void initWidgets(){
         calendarRecyclerView = findViewById(R.id.calendarRecyclerView);
         monthYearText = findViewById(R.id.monthYearTV);
+    }
+    private void createNotificationChannel(){
+        CharSequence name = "MyTimeNotificationChannel";
+        String description = "Channel for My Time Application";
+        int importance = NotificationManager.IMPORTANCE_DEFAULT;
+        NotificationChannel channel = new NotificationChannel("myTimeNotifications", name, importance);
+        channel.setDescription(description);
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        notificationManager.createNotificationChannel(channel);
     }
 
     private void setMonthView(){

@@ -1,11 +1,12 @@
 package com.samsung.mytime;
 
+import static com.samsung.mytime.Notifications.notificationID;
+
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -20,7 +21,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
@@ -32,8 +32,10 @@ public class EventEditActivity extends AppCompatActivity{
     private Button eventTimeButton;
     int hour, minute;
     String strTime;
+    public static Date dateForRemind;
     public static LocalTime time;
     public static String eventName;
+    MainActivity mainActivity;
     private static final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("H:m");
     OpenHelper openHelper = new OpenHelper(this);
 
@@ -43,7 +45,6 @@ public class EventEditActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_edit);
         initWidgets();
-        createNotificationChannel();
         time = LocalTime.now();
         eventDateTV.setText(CalendarUtils.formattedDate(CalendarUtils.selectedDate));
     }
@@ -73,16 +74,22 @@ public class EventEditActivity extends AppCompatActivity{
             }
         });
     }
-
-    private void createNotificationChannel(){
-        CharSequence name = "MyTimeNotificationChannel";
-        String description = "Channel for My Time Application";
-        int importance = NotificationManager.IMPORTANCE_DEFAULT;
-        NotificationChannel channel = new NotificationChannel("myTimeNotifications", name, importance);
-        channel.setDescription(description);
-
-        NotificationManager notificationManager = getSystemService(NotificationManager.class);
-        notificationManager.createNotificationChannel(channel);
+    public void scheduleNotification() {
+        Intent intent = new Intent(getApplicationContext(), Notifications.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(),
+                notificationID,
+                intent,
+                PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        long time = returnTimeInMillis();
+        manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,
+                time,
+                pendingIntent);
+    }
+    private long returnTimeInMillis(){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(EventEditActivity.dateForRemind.getTime());
+        return calendar.getTimeInMillis();
     }
 
     public void saveEventAction(View view){
@@ -94,21 +101,16 @@ public class EventEditActivity extends AppCompatActivity{
         Event.eventsList.add(newEvent);
         openHelper.insert(newEvent);
         Toast.makeText(this, "Event saved!", Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(EventEditActivity.this, EventReminder.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(EventEditActivity.this, 0, intent, 0);
         String dateTime = CalendarUtils.selectedDate.toString() + " " + time.toString();
         DateFormat dateTimeFormatter = new SimpleDateFormat("yyyy-MM-dd H:mm");
-        long timeAlarm = System.currentTimeMillis();
-        long tenSecondsInMillis = 1000 * 10;
-        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         try {
-            Date date = dateTimeFormatter.parse(dateTime);
+            dateForRemind = dateTimeFormatter.parse(dateTime);
             Calendar cal = Calendar.getInstance();
-            cal.setTime(date);
+            cal.setTime(dateForRemind);
             cal.add(Calendar.HOUR, -1);
             cal.set(Calendar.SECOND, 0);
-            date = cal.getTime();
-            alarmManager.set(AlarmManager.RTC_WAKEUP, date.getTime(), pendingIntent);
+            dateForRemind = cal.getTime();
+            scheduleNotification();
         } catch (ParseException e) {
             e.printStackTrace();
         }
