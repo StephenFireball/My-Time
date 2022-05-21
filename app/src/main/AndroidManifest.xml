@@ -10,10 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyTime">
         <receiver android:name=".Notifications"
-            android:enabled="true"/>
+            android:enabled="true"
+            android:exported="false"/>
         <activity android:name="com.samsung.mytime.EventEditActivity" />
         <activity android:name="com.samsung.mytime.WeekActivity" />
-        <activity android:name="com.samsung.mytime.MainActivity">
+        <activity android:name="com.samsung.mytime.MainActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
