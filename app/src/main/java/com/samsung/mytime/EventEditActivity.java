@@ -35,7 +35,6 @@ public class EventEditActivity extends AppCompatActivity{
     public static Date dateForRemind;
     public static LocalTime time;
     public static String eventName;
-    MainActivity mainActivity;
     private static final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("H:m");
     OpenHelper openHelper = new OpenHelper(this);
 
