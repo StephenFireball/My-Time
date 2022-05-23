@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name" translatable="false">My Time</string>
-    <string name="back" translatable="false"><![CDATA[<-]]></string>
-    <string name="forward" translatable="false"><![CDATA[->]]></string>
+    <string name="back" translatable="false">←</string>
+    <string name="forward" translatable="false">→</string>
     <string name="mon">MON</string>
     <string name="tue">TUE</string>
     <string name="wen">WEN</string>
