@@ -7,30 +7,51 @@
     android:orientation="vertical"
     tools:context="com.samsung.mytime.EventEditActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="20dp"
-        android:text="Name:"
-        android:textSize="20sp"
-        android:textAlignment="center"
-        android:textColor="@color/black"/>
-
     <EditText
         android:id="@+id/eventNameET"
         android:layout_width="wrap_content"
+        android:layout_marginTop="30dp"
         android:layout_height="40dp"
         android:layout_gravity="center"
         android:textSize="20sp"
         android:background="@drawable/custom_input"
+        android:hint="@string/write_event_name"
         android:text=""
         android:paddingStart="6dp"
         android:paddingEnd="6dp"
         android:textColor="@color/black"
         android:ems="10"
         android:inputType="text"/>
-
+    <EditText
+        android:id="@+id/eventPriceET"
+        android:layout_width="171dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:background="@drawable/custom_input"
+        android:ems="4"
+        android:layout_marginTop="20dp"
+        android:hint="Write event price"
+        android:inputType="number"
+        android:paddingStart="6dp"
+        android:paddingEnd="6dp"
+        android:text=""
+        android:textColor="@color/black"
+        android:textSize="20sp" />
+    <EditText
+        android:id="@+id/eventEquipmentET"
+        android:layout_width="303dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/custom_input"
+        android:ems="15"
+        android:hint="Write event equipment"
+        android:inputType="text"
+        android:paddingStart="6dp"
+        android:paddingEnd="6dp"
+        android:text=""
+        android:textColor="@color/black"
+        android:textSize="20sp" />
     <TextView
         android:id="@+id/eventDateTV"
         android:layout_width="wrap_content"
@@ -41,66 +62,35 @@
         android:textSize="20sp"
         android:textAlignment="center"
         android:textColor="@color/black"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="20dp"
-        android:text="Price"
-        android:textSize="20sp"
-        android:textAlignment="center"
-        android:textColor="@color/black"/>
-
-    <EditText
-        android:id="@+id/eventPriceET"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_gravity="center"
-        android:textSize="20sp"
-        android:text=""
-        android:paddingStart="6dp"
-        android:paddingEnd="6dp"
-        android:background="@drawable/custom_input"
-        android:textColor="@color/black"
-        android:ems="4"
-        android:inputType="number"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="20dp"
-        android:text="Equipment"
-        android:textSize="20sp"
-        android:textAlignment="center"
-        android:textColor="@color/black"/>
-
-    <EditText
-        android:id="@+id/eventEquipmentET"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_gravity="center"
-        android:textSize="20sp"
-        android:text=""
-        android:paddingStart="6dp"
-        android:paddingEnd="6dp"
-        android:background="@drawable/custom_input"
-        android:textColor="@color/black"
-        android:ems="15"
-        android:inputType="text"/>
-
     <Button
         android:id="@+id/eventTimeButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:text="@string/time"
         android:textSize="20sp"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:onClick="popOutTimePicker"/>
+
+    <EditText
+        android:id="@+id/hours_count"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/custom_input"
+        android:ems="4"
+        android:textAlignment="center"
+        android:hint="How many hours before the event\nto send you a notification"
+        android:inputType="number"
+        android:maxLength="1"
+        android:paddingStart="6dp"
+        android:paddingEnd="6dp"
+        android:text=""
+        android:textColor="@color/black"
+        android:textSize="20sp" />
 
     <Button
         android:layout_marginTop="20dp"

@@ -27,7 +27,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class EventEditActivity extends AppCompatActivity{
-    private EditText eventNameET, eventPriceET, eventEquipmentET;
+    private EditText eventNameET, eventPriceET, eventEquipmentET, hours_count;
     private TextView eventDateTV;
     private Button eventTimeButton;
     int hour, minute;
@@ -50,6 +50,7 @@ public class EventEditActivity extends AppCompatActivity{
 
     private void initWidgets(){
         eventNameET = findViewById(R.id.eventNameET);
+        hours_count = findViewById(R.id.hours_count);
         eventPriceET = findViewById(R.id.eventPriceET);
         eventEquipmentET = findViewById(R.id.eventEquipmentET);
         eventDateTV = findViewById(R.id.eventDateTV);
@@ -99,6 +100,7 @@ public class EventEditActivity extends AppCompatActivity{
         Event newEvent = new Event(eventName, CalendarUtils.selectedDate, time, eventPrice, eventEquipment);
         Event.eventsList.add(newEvent);
         openHelper.insert(newEvent);
+        int hour_count = Integer.parseInt(hours_count.getText().toString());
         Toast.makeText(this, "Event saved!", Toast.LENGTH_SHORT).show();
         String dateTime = CalendarUtils.selectedDate.toString() + " " + time.toString();
         DateFormat dateTimeFormatter = new SimpleDateFormat("yyyy-MM-dd H:mm");
@@ -106,7 +108,7 @@ public class EventEditActivity extends AppCompatActivity{
             dateForRemind = dateTimeFormatter.parse(dateTime);
             Calendar cal = Calendar.getInstance();
             cal.setTime(dateForRemind);
-            cal.add(Calendar.HOUR, -1);
+            cal.add(Calendar.HOUR, -hour_count);
             cal.set(Calendar.SECOND, 0);
             dateForRemind = cal.getTime();
             scheduleNotification();
