@@ -25,6 +25,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 public class EventEditActivity extends AppCompatActivity{
     private EditText eventNameET, eventPriceET, eventEquipmentET, hours_count;
@@ -100,7 +101,7 @@ public class EventEditActivity extends AppCompatActivity{
         Event newEvent = new Event(eventName, CalendarUtils.selectedDate, time, eventPrice, eventEquipment);
         Event.eventsList.add(newEvent);
         openHelper.insert(newEvent);
-        int hour_count = Integer.parseInt(hours_count.getText().toString());
+        String hour_count_str = hours_count.getText().toString();
         Toast.makeText(this, "Event saved!", Toast.LENGTH_SHORT).show();
         String dateTime = CalendarUtils.selectedDate.toString() + " " + time.toString();
         DateFormat dateTimeFormatter = new SimpleDateFormat("yyyy-MM-dd H:mm");
@@ -108,7 +109,13 @@ public class EventEditActivity extends AppCompatActivity{
             dateForRemind = dateTimeFormatter.parse(dateTime);
             Calendar cal = Calendar.getInstance();
             cal.setTime(dateForRemind);
-            cal.add(Calendar.HOUR, -hour_count);
+            if (hour_count_str == ""){
+                cal.add(Calendar.HOUR, 0);
+            }
+            else {
+                int hour_count = Integer.parseInt(hour_count_str);
+                cal.add(Calendar.HOUR, -hour_count);
+            }
             cal.set(Calendar.SECOND, 0);
             dateForRemind = cal.getTime();
             scheduleNotification();

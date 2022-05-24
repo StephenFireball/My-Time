@@ -14,4 +14,8 @@
     <string name="time">Set Time</string>
     <string name="deleteEvents">Delete Events</string>
     <string name="sure">Are you sure? Your events will be deleted with no restore option!</string>
+    <string name="save">Save</string>
+    <string name="how_many_hours_before_the_event_nto_send_you_a_notification">How many hours before the\nevent to send you a notification</string>
+    <string name="write_event_equipment">Write event gear</string>
+    <string name="write_event_price">Write event price</string>
 </resources>
